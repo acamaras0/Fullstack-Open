@@ -1,6 +1,6 @@
-## Fullstack-Open
+# Fullstack-Open
 
-# Fullstack-Open is a web development course offered by the University of Helsinki.
+## Fullstack-Open is a web development course offered by the University of Helsinki.
 
 Course description:
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const Person = ({ person }) => {
-  return <div>{person.content}</div>;
+  return <div>{person.name}</div>;
 };
 
 const App = () => {
@@ -12,14 +12,14 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
+
     const nameObject = {
-      content: newName,
+      name: newName,
       id: persons.length + 1,
     };
-    let alreadyExists = persons.some((person) => {
-      if (person.name === newName) return true;
-      return false;
-    });
+
+    let alreadyExists = persons.some((person) => person.name === newName);
+    console.log(alreadyExists);
     if (alreadyExists) {
       alert(`${newName} is already added to phonebook`);
     } else {

@@ -1,6 +1,6 @@
 ## Part 2
 
-# courseinfo:
+# courseinfo
 
 
 # phonebook

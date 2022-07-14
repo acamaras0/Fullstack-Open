@@ -1,6 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Person from "./components/Person";
 import Filter from "./components/Filter";
+
+const url = "http://localhost:3001/persons";
+
+const InfoToServer = (nameObject) => {
+  return axios.post(url, nameObject);
+};
+
+const InfoUpdate = (nameObject, id) => {
+  return axios.put(`${url}/${id}`, nameObject);
+};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,6 +21,15 @@ const App = () => {
   const [searchField, setSearchField] = useState("");
   const personsToShow = showAll ? persons : persons;
 
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
+  console.log("render", persons.length, "persons");
+
   const addName = (event) => {
     event.preventDefault();
 
@@ -18,7 +38,8 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
-
+    InfoToServer(nameObject);
+    const nameInfo = persons.filter((person) => person.name === newName);
     let alreadyExists = persons.some((person) => person.name === newName);
     if (alreadyExists) {
       alert(`${newName} is already added to phonebook`);
@@ -26,6 +47,7 @@ const App = () => {
       setPersons(persons.concat(nameObject));
       setNewName("");
       setNewNumber("");
+      InfoUpdate(nameInfo[0].id, nameInfo[0]);
     }
   };
 

@@ -4,6 +4,7 @@ import Filter from "./components/Filter.js";
 import Form from "./components/Form.js";
 import Persons from "./components/Person.js";
 import Message from "./components/Messages.js";
+import Header from "./components/Header.js";
 import contactService from "./module/server";
 
 const App = () => {
@@ -102,12 +103,12 @@ const App = () => {
 
   return (
     <>
-      <h2>Phonebook</h2>
+      <Header title={"Phonebook"} />
       <Message name={message} type={messageType} errorMessage={messageError} />
       <Filter persons={showAllPersons} funct={handleShowPerson} />
-      <h2>Add a new contact</h2>
+      <Header title={"Add a new contact"} />
       <Form helpers={functions} newName={newName} newNumber={newNumber} />
-      <h2>Contacts</h2>
+      <Header title={"Contacts"} />
       <Persons contacts={contactsToShow} funct={deletePerson} />
     </>
   );

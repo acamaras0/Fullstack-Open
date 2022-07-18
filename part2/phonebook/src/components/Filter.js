@@ -1,9 +1,9 @@
 import React from "react";
 
-const Filter = ({ value, funct }) => {
+const Filter = ({ persons, funct }) => {
   return (
     <>
-      search: <input value={value} onChange={funct} />
+      search: <input persons={persons} onChange={funct} />
     </>
   );
 };

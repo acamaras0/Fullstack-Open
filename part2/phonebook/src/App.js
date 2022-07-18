@@ -103,14 +103,10 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
-      <Message
-        name={message}
-        type={messageType}
-        errorMessage={messageError}
-      />
-      <Filter value={showAllPersons} funct={handleShowPerson} />
+      <Message name={message} type={messageType} errorMessage={messageError} />
+      <Filter persons={showAllPersons} funct={handleShowPerson} />
       <h2>Add a new contact</h2>
-      <Form helpers={functions} valueName={newName} valueNumber={newNumber} />
+      <Form helpers={functions} newName={newName} newNumber={newNumber} />
       <h2>Contacts</h2>
       <Persons contacts={contactsToShow} funct={deletePerson} />
     </>

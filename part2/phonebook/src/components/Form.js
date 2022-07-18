@@ -9,6 +9,7 @@ const Form = ({ helpers, newName, newNumber }) => {
       <div>
         number: <input value={newNumber} onChange={helpers[2]} />
       </div>
+      <br />
       <div>
         <button type="submit">add</button>
       </div>

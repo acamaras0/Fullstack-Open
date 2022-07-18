@@ -1,11 +1,13 @@
 import React from "react";
 
-const Person = ({ person }) => {
-  return (
-    <div>
-      {person.name} {person.number}
-    </div>
-  );
+const Persons = ({ contacts, funct }) => {
+  const iteratedObject = contacts.map((contact) => (
+    <p key={contact.id}>
+      {contact.name} {contact.number}{" "}
+      {<button onClick={() => funct(contact)}>Delete</button>}
+    </p>
+  ));
+  return <>{iteratedObject}</>;
 };
 
-export default Person;
+export default Persons;

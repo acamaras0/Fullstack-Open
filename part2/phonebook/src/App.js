@@ -109,9 +109,9 @@ const App = () => {
         messageUpdateError={messageError}
       />
       <Filter value={showAllPersons} funct={handleShowPerson} />
-      <h2>add a new</h2>
+      <h2>Add a new contact</h2>
       <Form helpers={functions} valueName={newName} valueNumber={newNumber} />
-      <h2>Numbers</h2>
+      <h2>Contacts</h2>
       <Persons contacts={contactsToShow} funct={deletePerson} />
     </>
   );

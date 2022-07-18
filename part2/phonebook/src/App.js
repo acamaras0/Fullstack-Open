@@ -13,7 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [showAllPersons, setShowAllPersons] = useState("");
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("1");
+  const [messageType, setMessageType] = useState("0");
   const [messageError, setMessageError] = useState("");
   useEffect(() => {
     contactService.getAll().then((initialContacts) => {
@@ -41,7 +41,7 @@ const App = () => {
       check.name === nameObject.name &&
       window.confirm(
         check.name +
-          " is already addedd to the phonebook, replace the old with a new one?"
+          " is already added to the phonebook, replace the old one with a new one?"
       )
     ) {
       contactService

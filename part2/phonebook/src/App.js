@@ -106,7 +106,7 @@ const App = () => {
       <Message
         name={message}
         type={messageType}
-        messageUpdateError={messageError}
+        errorMessage={messageError}
       />
       <Filter value={showAllPersons} funct={handleShowPerson} />
       <h2>Add a new contact</h2>

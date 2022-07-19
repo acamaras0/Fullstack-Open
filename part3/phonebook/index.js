@@ -31,17 +31,20 @@ const generateId = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
-  // const maxId = persons.length > 0 ? Math.random(...persons.map((n) => n.id)) : 0;
-  // return maxId + 1;
 };
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
   if (!body.name) {
     return response.status(400).json({
-      error: "person missing",
+      error: "name missing",
     });
   }
+  const check = persons.find((pers) => pers.name === body.name);
+  if (check && check.name === body.name)
+    return response.status(400).json({
+      error: "This person already exists",
+    });
 
   const person = {
     name: body.name,

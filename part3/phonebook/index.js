@@ -46,21 +46,18 @@ app.post("/api/persons", (request, response) => {
       error: "name missing",
     });
   }
-  const check = Person.find((pers) => pers.name === body.name);
-  if (check && check.name === body.name)
-    return response.status(400).json({
-      error: "This person already exists",
-    });
 
   const person = new Person({
     name: body.name,
     number: body.number,
     id: generateId(1, 100000000),
   });
-
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/persons", (request, response) => {
@@ -89,7 +86,7 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.put("/api/notes/:id", (request, response, next) => {
+app.put("/api/persons/:id", (request, response, next) => {
   const body = request.body;
 
   const person = {
@@ -99,16 +96,10 @@ app.put("/api/notes/:id", (request, response, next) => {
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
     .then((updatedPerson) => {
-      response.json(updatedPerson);
+      response.json(updatedPerson.toJSON());
     })
     .catch((error) => next(error));
 });
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-
-app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
@@ -124,12 +115,14 @@ app.use(errorHandler);
 
 app.get("/info", (request, response) => {
   let dateDefault = Date(response);
-  response.send(
-    `<div>
+  Person.find({}).then((persons) => {
+    response.send(
+      `<div>
         <p>Phonebook has info for ${persons.length} people.</p>
         <p>Date & time : ${dateDefault} </p>
       </div>`
-  );
+    );
+  });
 });
 
 const PORT = process.env.PORT || 3001;

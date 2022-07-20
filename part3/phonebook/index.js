@@ -6,7 +6,16 @@ const cors = require("cors");
 require("dotenv").config();
 const Person = require("./models/person");
 
+const requestLogger = (request, response, next) => {
+  console.log("Method:", request.method);
+  console.log("Path:  ", request.path);
+  console.log("Body:  ", request.body);
+  console.log("---");
+  next();
+};
+
 app.use(express.json());
+app.use(requestLogger);
 app.use(cors());
 app.use(express.static("build"));
 app.use(
@@ -24,29 +33,6 @@ app.use(
   })
 );
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-
 const generateId = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -60,7 +46,7 @@ app.post("/api/persons", (request, response) => {
       error: "name missing",
     });
   }
-  const check = persons.find((pers) => pers.name === body.name);
+  const check = Person.find((pers) => pers.name === body.name);
   if (check && check.name === body.name)
     return response.status(400).json({
       error: "This person already exists",
@@ -103,6 +89,21 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.put("/api/notes/:id", (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      response.json(updatedPerson);
+    })
+    .catch((error) => next(error));
+});
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
 };
@@ -131,7 +132,7 @@ app.get("/info", (request, response) => {
   );
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -26,3 +26,10 @@ test("the first blog author is Edsger W. Dijkstra", async () => {
 
   expect(response.body[0].author).toBe("Edsger W. Dijkstra");
 });
+
+test("the unique identifier property of the blog posts is named id", async () => {
+  const response = await api.get("/api/blogs");
+
+  expect(response.body[0].id).toBeDefined();
+});
+

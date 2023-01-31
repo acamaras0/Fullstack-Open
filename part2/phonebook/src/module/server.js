@@ -1,5 +1,5 @@
 import axios from "axios";
-const urlAddress = "https://phonebook-server-rypv.onrender.com/api";
+const urlAddress = "https://phonebook-server-rypv.onrender.com";
 
 const getAll = async () => {
   const request = axios.get(urlAddress);

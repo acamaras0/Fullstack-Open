@@ -14,14 +14,14 @@ const create = async (newObject) => {
 };
 
 const update = async (id, newObject) => {
-  const request = axios.put(`${urlAddress}/${id}`, newObject);
+  const request = axios.put(`${urlAddress}/api/persons/${id}`, newObject);
   const response = await request;
   if (response.status === 404) return "Error. Something went wrong.";
   return response.data;
 };
 
 const del = async (id) => {
-  const request = axios.delete(`${urlAddress}/${id}`);
+  const request = axios.delete(`${urlAddress}/api/persons/${id}`);
   const response = await request;
   return response.data;
 };

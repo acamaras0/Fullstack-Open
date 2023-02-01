@@ -60,8 +60,23 @@ test("if the likes property is missing from the request, it will default to the 
 });
 
 test("if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request", async () => {
-    const newBlog = {
-        likes: 7,
-    }
-    await api.post("/api/blogs").send(newBlog).expect(400);
+  const newBlog = {
+    likes: 7,
+  };
+  await api.post("/api/blogs").send(newBlog).expect(400);
+});
+
+test("a single blog post can be deleted", async () => {
+  const response = await api.get("/api/blogs");
+  const id = response.body[0].id;
+  await api.delete(`/api/blogs/${id}`).expect(204);
+});
+
+test("a single blog post can be updated", async () => {
+  const response = await api.get("/api/blogs");
+  const id = response.body[0].id;
+  const updatedBlog = {
+    likes: 100,
+  };
+  await api.put(`/api/blogs/${id}`).send(updatedBlog).expect(200);
 });

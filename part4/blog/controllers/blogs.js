@@ -2,7 +2,11 @@ const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
 
 blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate("user", {
+    username: 1,
+    name: 1,
+    id: 1,
+  });
   response.json(blogs);
 });
 
@@ -14,8 +18,13 @@ blogRouter.post("/", async (request, response) => {
   if (!blog.title || !blog.url) {
     return response.status(400).end();
   }
-  const res = await blog.save();
-  response.status(201).json(res);
+  try {
+    const savedBlog = await blog.save();
+    response.status(201).json(savedBlog);
+  } catch (error) {
+    console.log(error);
+    response.status(400).end();
+  }
 });
 
 blogRouter.put("/:id", async (request, response) => {

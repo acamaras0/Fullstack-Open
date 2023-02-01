@@ -33,28 +33,35 @@ test("the unique identifier property of the blog posts is named id", async () =>
   expect(response.body[0].id).toBeDefined();
 });
 
-// test("a valid blog can be added", async () => {
-//   const newBlog = {
-//     title: "React patterns",
-//     author: "Michael Chan",
-//     url: "https://reactpatterns.com/",
-//     likes: 7,
-//   };
+test("a valid blog can be added", async () => {
+  const newBlog = {
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 7,
+  };
 
-//   await api
-//     .post("/api/blogs")
-//     .send(newBlog)
-//     .expect(201)
-//     .expect("Content-Type", /application\/json/);
-// });
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+});
 
 test("if the likes property is missing from the request, it will default to the value 0", async () => {
-//   const newBlog = {
-//     title: "React patterns",
-//     author: "Michael Chan",
-//     url: "https://reactpatterns.com/",
-//   };
-//   await api.post("/api/blogs").send(newBlog).expect(201);
+  const newBlog = {
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+  };
+  await api.post("/api/blogs").send(newBlog).expect(201);
   const response = await api.get("/api/blogs");
   expect(response.body[5].likes).toBe(0);
+});
+
+test("if the title and url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request", async () => {
+    const newBlog = {
+        likes: 7,
+    }
+    await api.post("/api/blogs").send(newBlog).expect(400);
 });

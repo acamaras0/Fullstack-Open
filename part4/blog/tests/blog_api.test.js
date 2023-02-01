@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
-
+const helper = require("./test_helper");
 const api = supertest(app);
 
 test("blogs are returned as json", async () => {
@@ -18,7 +18,7 @@ afterAll(async () => {
 test("there is one blog", async () => {
   const response = await api.get("/api/blogs");
 
-  expect(response.body).toHaveLength(6);
+  expect(response.body).toHaveLength(1);
 });
 
 test("the first blog author is Edsger W. Dijkstra", async () => {
@@ -67,16 +67,26 @@ test("if the title and url properties are missing from the request data, the bac
 });
 
 test("a single blog post can be deleted", async () => {
-  const response = await api.get("/api/blogs");
-  const id = response.body[0].id;
-  await api.delete(`/api/blogs/${id}`).expect(204);
+  const response = await helper.blogsInDb();
+  const toBeDeleter = response[0];
+
+  await api.delete(`/api/blogs/${toBeDeleter.id}`).expect(204);
+
+  const afterDeletion = await helper.blogsInDb();
+  expect(afterDeletion).toHaveLength(response.length - 1);
 });
 
 test("a single blog post can be updated", async () => {
-  const response = await api.get("/api/blogs");
-  const id = response.body[0].id;
-  const updatedBlog = {
+  const response = await helper.blogsInDb();
+  const toBeUpdated = response[0];
+
+  const updatedLikes = {
     likes: 100,
   };
-  await api.put(`/api/blogs/${id}`).send(updatedBlog).expect(200);
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${toBeUpdated.id}`)
+    .send(updatedLikes)
+    .expect(200);
+  expect(updatedBlog.body.likes).toBe(100);
 });

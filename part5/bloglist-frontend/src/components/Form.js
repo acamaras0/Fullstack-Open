@@ -14,6 +14,7 @@ const Form = ({ setUser }) => {
         username,
         password,
       });
+      window.localStorage.setItem("logged", JSON.stringify(user));
       setUser(user);
       setUsername("");
       setPassword("");

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import loginService from "../services/login";
+import blogService from "../services/blogs";
 
 const Form = ({ setUser }) => {
   const [username, setUsername] = useState("");
@@ -15,11 +16,12 @@ const Form = ({ setUser }) => {
         password,
       });
       window.localStorage.setItem("logged", JSON.stringify(user));
+      blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
+      setErrorMessage("wrong username or password");
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -28,6 +30,8 @@ const Form = ({ setUser }) => {
 
   return (
     <>
+      <h3>log in</h3>
+      <p style={{ color: "red", fontSize: "25px" }}>{errorMessage}</p>
       <form onSubmit={handleLogin}>
         <div>
           username
@@ -48,7 +52,6 @@ const Form = ({ setUser }) => {
           />
         </div>
         <button type="submit">login</button>
-        <p>{errorMessage}</p>
       </form>
     </>
   );

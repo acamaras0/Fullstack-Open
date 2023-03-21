@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import blogService from "../services/blogs";
 
-const NewBlog = () => {
+const NewBlog = ({ handleVisibility }) => {
   const [newBlog, setNewBlog] = useState({});
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -77,6 +77,10 @@ const NewBlog = () => {
           onChange={({ target }) => setUrl(target.value)}
         />
         <button type="submit">Add</button>
+        <br />
+        <button type="button" onClick={handleVisibility}>
+          Cancel
+        </button>
       </form>
     </>
   );

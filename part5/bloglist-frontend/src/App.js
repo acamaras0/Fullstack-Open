@@ -7,6 +7,7 @@ import blogService from "./services/blogs";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -26,6 +27,10 @@ const App = () => {
     window.location.reload();
   };
 
+  const handleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -33,12 +38,19 @@ const App = () => {
         <Form setUser={setUser} />
       ) : (
         <>
-        <div style={{ marginBottom: "5px" }}>
-          <span>Logged in as {user.username}. </span>
-          <button onClick={handleLogout}>Log out</button>
-        </div>
+          <div style={{ marginBottom: "5px" }}>
+            <span>Logged in as {user.username}. </span>
+            <button onClick={() => handleLogout()}>Log out</button>
+          </div>
           <br />
-          <NewBlog />
+          <div>
+            {isVisible ? (
+              <NewBlog handleVisibility={handleVisibility} />
+            ) : (
+              <button onClick={() => handleVisibility()}>New blog</button>
+            )}
+          </div>
+          <br />
         </>
       )}
       {user ? blogs.map((blog) => <Blog key={blog.id} blog={blog} />) : null}

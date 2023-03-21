@@ -9,7 +9,6 @@ const Form = ({ setUser }) => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
       const user = await loginService.login({
         username,

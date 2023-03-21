@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setReload, reload }) => {
   const [isVisible, setIsVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -12,6 +13,18 @@ const Blog = ({ blog }) => {
 
   const handleVisibility = () => {
     setIsVisible(!isVisible);
+  };
+
+  const addLike = async (id, newObject) => {
+    await blogService.addLike(id, newObject);
+    setReload(!reload);
+  };
+
+  const handleRemove = async (id) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      await blogService.removeBlog(id);
+    }
+    setReload(!reload);
   };
 
   return (
@@ -27,10 +40,14 @@ const Blog = ({ blog }) => {
           <a href={blog.url}>{blog.url}</a>
           <br />
           <span>
-            {blog.likes} <button>like</button>
+            {blog.likes}{" "}
+            <button onClick={() => addLike(blog.id, { likes: blog.likes + 1 })}>
+              like
+            </button>
           </span>
           <br />
           <span>{blog.user?.username}</span>
+          <button onClick={() => handleRemove(blog.id)}>remove</button>
         </div>
       ) : null}
     </div>

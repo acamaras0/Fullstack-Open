@@ -8,10 +8,11 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+  }, [reload, setReload]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("logged");
@@ -31,6 +32,7 @@ const App = () => {
     setIsVisible(!isVisible);
   };
 
+  blogs.sort((a, b) => b.likes - a.likes);
   return (
     <div>
       <h2>blogs</h2>
@@ -53,7 +55,16 @@ const App = () => {
           <br />
         </>
       )}
-      {user ? blogs.map((blog) => <Blog key={blog.id} blog={blog} />) : null}
+      {user
+        ? blogs.map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              setReload={setReload}
+              reload={reload}
+            />
+          ))
+        : null}
     </div>
   );
 };

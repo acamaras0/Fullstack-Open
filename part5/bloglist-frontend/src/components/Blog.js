@@ -24,13 +24,13 @@ const Blog = ({ blog }) => {
       </button>
       {isVisible ? (
         <div>
-          <span>{blog.url}</span>
+          <a href={blog.url}>{blog.url}</a>
           <br />
           <span>
             {blog.likes} <button>like</button>
           </span>
           <br />
-          <span>{blog.author}</span>
+          <span>{blog.user?.username}</span>
         </div>
       ) : null}
     </div>

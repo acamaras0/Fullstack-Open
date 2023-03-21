@@ -32,7 +32,7 @@ const NewBlog = ({ handleVisibility }) => {
       };
       addNewBlog();
     }
-  }, [newBlog]);
+  }, [newBlog, author, title]);
 
   return (
     <>

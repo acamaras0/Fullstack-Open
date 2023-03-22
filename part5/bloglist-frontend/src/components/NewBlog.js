@@ -1,48 +1,26 @@
 import { useEffect, useState } from "react";
-import blogService from "../services/blogs";
 
-const NewBlog = ({ handleVisibility }) => {
+const NewBlog = ({ handleVisibility, addBlog }) => {
   const [newBlog, setNewBlog] = useState({});
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
-  const addBlog = async (e) => {
+  const addNewBlog = async (e) => {
     e.preventDefault();
     setNewBlog({ title: title, author: author, url: url });
   };
 
   useEffect(() => {
     if (newBlog.title) {
-      const addNewBlog = async () => {
-        try {
-          await blogService.addBlog(newBlog);
-          setMessage(`a new blog ${title} by ${author} added`);
-          setTimeout(() => {
-            setMessage(null);
-          }, 5000);
-        } catch (error) {
-          setError(error);
-          setTimeout(() => {
-            setError(null);
-          }, 5000);
-        }
-      };
-      addNewBlog();
+      addBlog(newBlog);
     }
-  }, [newBlog, author, title]);
+  }, [newBlog]);
 
   return (
     <>
-      {message ? (
-        <span style={{ color: "green", fontSize: "25px" }}>{message}</span>
-      ) : (
-        <span style={{ color: "red", fontSize: "25px" }}>{error}</span>
-      )}
       <form
-        onSubmit={(e) => addBlog(e)}
+        onSubmit={(e) => addNewBlog(e)}
         style={{
           display: "flex",
           flexDirection: "column",

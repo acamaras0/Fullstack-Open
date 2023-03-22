@@ -10,6 +10,7 @@ describe("Blog component", () => {
     author: "John Doe",
     url: "https://example.com",
     likes: 10,
+    user: { username: "testuser" },
   };
 
   beforeEach(() => {
@@ -40,4 +41,25 @@ describe("Blog component", () => {
     expect(component.container).toHaveTextContent(blog.likes);
   });
 
+  test("clicking the like button twice will trigger the addLike function twice", () => {
+    const mockHandler = jest.fn();
+
+    const component = render(
+      <Blog
+        blog={blog}
+        handleLike={mockHandler}
+        setReload={() => {}}
+        reload={false}
+      />
+    );
+
+    const buttons = component.queryAllByRole("button", { name: "view" });
+    fireEvent.click(buttons[1]);
+
+    const likeButton = component.getByText("like");
+    fireEvent.click(likeButton);
+    fireEvent.click(likeButton);
+
+    expect(mockHandler.mock.calls).toHaveLength(2);
+  });
 });

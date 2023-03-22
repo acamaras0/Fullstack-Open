@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setReload, reload }) => {
+const Blog = ({ blog, setReload, reload, handleLike}) => {
   const [isVisible, setIsVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -13,11 +13,6 @@ const Blog = ({ blog, setReload, reload }) => {
 
   const handleVisibility = () => {
     setIsVisible(!isVisible);
-  };
-
-  const addLike = async (id, newObject) => {
-    await blogService.addLike(id, newObject);
-    setReload(!reload);
   };
 
   const handleRemove = async (id) => {
@@ -41,7 +36,9 @@ const Blog = ({ blog, setReload, reload }) => {
           <br />
           <span>
             {blog.likes}{" "}
-            <button onClick={() => addLike(blog.id, { likes: blog.likes + 1 })}>
+            <button
+              onClick={() => handleLike(blog.id, { likes: blog.likes + 1 })}
+            >
               like
             </button>
           </span>

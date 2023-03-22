@@ -9,6 +9,8 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [reload, setReload] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -32,10 +34,35 @@ const App = () => {
     setIsVisible(!isVisible);
   };
 
+  const handleLike = async (id, newObject) => {
+    await blogService.addLike(id, newObject);
+    setReload(!reload);
+  };
+
+  const addBlog = async (newBlog) => {
+    try {
+      await blogService.addBlog(newBlog);
+      setMessage(`a new blog added`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    } catch (error) {
+      setError(error);
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+  };
+
   blogs.sort((a, b) => b.likes - a.likes);
   return (
     <div>
       <h2>blogs</h2>
+      {message ? (
+        <span style={{ color: "green", fontSize: "25px" }}>{message}</span>
+      ) : (
+        <span style={{ color: "red", fontSize: "25px" }}>{error}</span>
+      )}
       {user === null ? (
         <Form setUser={setUser} />
       ) : (
@@ -47,7 +74,7 @@ const App = () => {
           <br />
           <div>
             {isVisible ? (
-              <NewBlog handleVisibility={handleVisibility} />
+              <NewBlog handleVisibility={handleVisibility} addBlog={addBlog} />
             ) : (
               <button onClick={() => handleVisibility()}>New blog</button>
             )}
@@ -62,6 +89,7 @@ const App = () => {
               blog={blog}
               setReload={setReload}
               reload={reload}
+              handleLike={handleLike}
             />
           ))
         : null}

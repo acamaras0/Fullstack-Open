@@ -58,11 +58,6 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      {message ? (
-        <span style={{ color: "green", fontSize: "25px" }}>{message}</span>
-      ) : (
-        <span style={{ color: "red", fontSize: "25px" }}>{error}</span>
-      )}
       {user === null ? (
         <Form setUser={setUser} />
       ) : (
@@ -70,8 +65,16 @@ const App = () => {
           <div style={{ marginBottom: "5px" }}>
             <span>Logged in as {user.username}. </span>
             <button onClick={() => handleLogout()}>Log out</button>
+            <div>
+              {message ? (
+                <span style={{ color: "green", fontSize: "25px" }}>
+                  {message}
+                </span>
+              ) : (
+                <span style={{ color: "red", fontSize: "25px" }}>{error}</span>
+              )}
+            </div>
           </div>
-          <br />
           <div>
             {isVisible ? (
               <NewBlog handleVisibility={handleVisibility} addBlog={addBlog} />

@@ -1,6 +1,7 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import { render, screen } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import Blog from "../components/Blog.js";
 
 describe("Blog component", () => {
@@ -28,4 +29,15 @@ describe("Blog component", () => {
     const likesElement = screen.queryByText(`${blog.likes} likes`);
     expect(likesElement).toBeNull();
   });
+
+  test('clicking the "view" button shows the blog URL and likes', () => {
+    const component = render(<Blog blog={blog} />);
+
+    const buttons = component.queryAllByRole("button", { name: "view" });
+    fireEvent.click(buttons[1]);
+
+    expect(component.container).toHaveTextContent(blog.url);
+    expect(component.container).toHaveTextContent(blog.likes);
+  });
+
 });

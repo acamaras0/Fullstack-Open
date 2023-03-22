@@ -32,7 +32,7 @@ const Blog = ({ blog, setReload, reload }) => {
       <span>
         {blog.title} {blog.author}
       </span>
-      <button onClick={() => handleVisibility()}>
+      <button role="button" onClick={() => handleVisibility()}>
         {isVisible ? "hide" : "view"}
       </button>
       {isVisible ? (

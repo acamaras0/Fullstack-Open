@@ -52,25 +52,28 @@ const NewBlog = ({ handleVisibility }) => {
         }}
       >
         <h3>Add new blog</h3>
-        <label>title: </label>
+        <label htmlFor="title">title: </label>
         <input
           required
+          id="title"
           name="title"
           type="text"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
-        <label>author: </label>
+        <label htmlFor="author">author: </label>
         <input
           required
+          id="author"
           name="author"
           type="text"
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
         />
-        <label>url: </label>
+        <label htmlFor="url">url: </label>
         <input
           required
+          id="url"
           name="url"
           type="text"
           value={url}

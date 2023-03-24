@@ -57,7 +57,9 @@ const NewBlog = ({ handleVisibility, addBlog }) => {
           value={url}
           onChange={({ target }) => setUrl(target.value)}
         />
-        <button type="submit">Add</button>
+        <button type="submit" id="create-button">
+          Add
+        </button>
         <br />
         <button type="button" onClick={handleVisibility}>
           Cancel

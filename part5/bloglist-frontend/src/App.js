@@ -46,6 +46,7 @@ const App = () => {
       setTimeout(() => {
         setMessage(null);
       }, 5000);
+      setReload(!reload);
     } catch (error) {
       setError(error);
       setTimeout(() => {
@@ -85,17 +86,19 @@ const App = () => {
           <br />
         </>
       )}
-      {user
-        ? blogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              setReload={setReload}
-              reload={reload}
-              handleLike={handleLike}
-            />
-          ))
-        : null}
+      <div data-cy="blog">
+        {user
+          ? blogs.map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                setReload={setReload}
+                reload={reload}
+                handleLike={handleLike}
+              />
+            ))
+          : null}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog, setReload, reload, handleLike}) => {
+const Blog = ({ blog, setReload, reload, handleLike }) => {
   const [isVisible, setIsVisible] = useState(false);
   const blogStyle = {
     paddingTop: 10,
@@ -34,7 +34,7 @@ const Blog = ({ blog, setReload, reload, handleLike}) => {
         <div>
           <a href={blog.url}>{blog.url}</a>
           <br />
-          <span>
+          <span data-cy="likes">
             {blog.likes}{" "}
             <button
               onClick={() => handleLike(blog.id, { likes: blog.likes + 1 })}

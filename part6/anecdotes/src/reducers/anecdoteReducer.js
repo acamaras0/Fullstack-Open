@@ -33,6 +33,11 @@ export const createNew = (anecdote) => ({
   },
 });
 
+export const filterReducer = (filter) => ({
+  type: "FILTER",
+  filter,
+});
+
 const reducer = (state = initialState, action) => {
   console.log("state now: ", state);
   console.log("action", action);
@@ -45,6 +50,10 @@ const reducer = (state = initialState, action) => {
         anecdote.id === action.data.id
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
+      );
+    case "FILTER":
+      return state.filter((anecdote) =>
+        anecdote.content.includes(action.filter)
       );
     default:
       return state;

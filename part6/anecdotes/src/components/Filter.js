@@ -1,12 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { filterReducer } from "../reducers/anecdoteReducer";
+import { filter } from "../reducers/filterReducer";
 
 const Filter = () => {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    dispatch(filterReducer(event.target.value));
+    dispatch(filter(event.target.value));
   };
 
   const style = {

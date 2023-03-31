@@ -11,7 +11,7 @@ const New = () => {
     const content = event.target.anecdote.value;
     event.target.anecdote.value = "";
     dispatch(createAnecdote(content));
-    dispatch(setNotification(`You created "${content}"`, 5));
+    dispatch(setNotification(`New anecdote "${content}"`, 5));
   };
 
   return (
